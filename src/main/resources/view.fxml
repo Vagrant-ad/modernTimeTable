@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.SVGPath?>
+
+<!--
+    绑定了你的 Controller: com.vagrant.timetableproject.controller.MainController
+-->
+<!--<BorderPane prefHeight="850.0" prefWidth="1100.0" styleClass="root-pane" stylesheets="@style.css"
+            xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.vagrant.timetableproject.controller.MainController">-->
+<BorderPane prefHeight="850.0" prefWidth="1100.0" styleClass="root-pane" stylesheets="@style.css"
+            xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.vagrant.timetableproject.controller.MainController">
+    <!-- 顶部区域 -->
+    <top>
+        <HBox alignment="CENTER_LEFT" spacing="10.0" styleClass="header-bar">
+            <padding>
+                <Insets bottom="15.0" left="20.0" right="20.0" top="15.0"/>
+            </padding>
+
+            <!-- 左上角：时间与周次 -->
+            <VBox spacing="4.0">
+                <Label fx:id="labelDate" styleClass="header-date" text="11月20日"/>
+                <HBox alignment="CENTER_LEFT" spacing="8.0">
+                    <Label fx:id="labelWeekStatus" styleClass="header-week-status" text="第12周"/>
+                    <Label fx:id="labelDayOfWeek" styleClass="header-week-day" text="周四"/>
+                </HBox>
+            </VBox>
+
+            <Region HBox.hgrow="ALWAYS"/>
+
+            <!-- 右上角：功能按钮 -->
+            <HBox alignment="CENTER_RIGHT" spacing="12.0">
+                <!-- 新增：设置起始日期按钮 -->
+                <Button onAction="#onSetStartDate" styleClass="icon-button" text="设置开学">
+                    <tooltip>
+                        <Tooltip text="设置本学期起始日期"/>
+                    </tooltip>
+                    <graphic>
+                        <!-- 日历图标 -->
+                        <SVGPath
+                                content="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11z"
+                                scaleX="0.7" scaleY="0.7" styleClass="svg-icon"/>
+                    </graphic>
+                </Button>
+
+                <Button onAction="#onImportJson" styleClass="icon-button" text="导入">
+                    <tooltip>
+                        <Tooltip text="导入 JSON"/>
+                    </tooltip>
+                    <graphic>
+                        <SVGPath
+                                content="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"
+                                scaleX="0.7" scaleY="0.7" styleClass="svg-icon"/>
+                    </graphic>
+                </Button>
+
+                <Button onAction="#onExportICS" styleClass="icon-button" text="导出">
+                    <tooltip>
+                        <Tooltip text="导出 ICS"/>
+                    </tooltip>
+                    <graphic>
+                        <SVGPath content="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z" scaleX="0.7" scaleY="0.7"
+                                 styleClass="svg-icon"/>
+                    </graphic>
+                </Button>
+
+                <Button onAction="#onAddCourse" styleClass="icon-button, primary-button" text="+">
+                    <tooltip>
+                        <Tooltip text="添加课程"/>
+                    </tooltip>
+                </Button>
+            </HBox>
+        </HBox>
+    </top>
+
+    <!-- 中间：可滚动的课程表主体 -->
+    <center>
+        <ScrollPane fitToWidth="true" hbarPolicy="NEVER" styleClass="schedule-scroll-pane">
+            <GridPane fx:id="gridCourse" hgap="4.0" styleClass="schedule-grid" vgap="4.0">
+                <padding>
+                    <Insets bottom="20.0" left="5.0" right="10.0" top="10.0"/>
+                </padding>
+
+                <!-- ================= 列约束 ================= -->
+                <columnConstraints>
+                    <!-- 第0列：时间轴 -->
+                    <ColumnConstraints hgrow="NEVER" minWidth="50.0" prefWidth="55.0"/>
+                    <!-- 第1-7列：周一到周日 -->
+                    <ColumnConstraints hgrow="ALWAYS" percentWidth="13.5"/>
+                    <ColumnConstraints hgrow="ALWAYS" percentWidth="13.5"/>
+                    <ColumnConstraints hgrow="ALWAYS" percentWidth="13.5"/>
+                    <ColumnConstraints hgrow="ALWAYS" percentWidth="13.5"/>
+                    <ColumnConstraints hgrow="ALWAYS" percentWidth="13.5"/>
+                    <ColumnConstraints hgrow="ALWAYS" percentWidth="13.5"/>
+                    <ColumnConstraints hgrow="ALWAYS" percentWidth="13.5"/>
+                </columnConstraints>
+
+                <!-- ================= 行约束 ================= -->
+                <rowConstraints>
+                    <RowConstraints minHeight="45.0" prefHeight="50.0" vgrow="NEVER"/>
+                    <RowConstraints minHeight="55.0" prefHeight="58.0" vgrow="ALWAYS"/>
+                    <RowConstraints minHeight="55.0" prefHeight="58.0" vgrow="ALWAYS"/>
+                    <RowConstraints minHeight="55.0" prefHeight="58.0" vgrow="ALWAYS"/>
+                    <RowConstraints minHeight="55.0" prefHeight="58.0" vgrow="ALWAYS"/>
+                    <RowConstraints minHeight="55.0" prefHeight="58.0" vgrow="ALWAYS"/>
+                    <RowConstraints minHeight="55.0" prefHeight="58.0" vgrow="ALWAYS"/>
+                    <RowConstraints minHeight="55.0" prefHeight="58.0" vgrow="ALWAYS"/>
+                    <RowConstraints minHeight="55.0" prefHeight="58.0" vgrow="ALWAYS"/>
+                    <RowConstraints minHeight="55.0" prefHeight="58.0" vgrow="ALWAYS"/>
+                    <RowConstraints minHeight="55.0" prefHeight="58.0" vgrow="ALWAYS"/>
+                    <RowConstraints minHeight="55.0" prefHeight="58.0" vgrow="ALWAYS"/>
+                    <RowConstraints minHeight="55.0" prefHeight="58.0" vgrow="ALWAYS"/>
+                </rowConstraints>
+
+                <!-- ================= 静态内容 ================= -->
+
+                <!-- (0,0) 左上角月份 -->
+                <VBox alignment="CENTER" styleClass="grid-header-month" GridPane.columnIndex="0"
+                      GridPane.rowIndex="0">
+                    <Label fx:id="labelMonth" text="11月"/>
+                </VBox>
+
+                <!-- 表头：周一到周日 -->
+                <VBox alignment="CENTER" styleClass="grid-header-day" GridPane.columnIndex="1"
+                      GridPane.rowIndex="0">
+                    <Label styleClass="day-name" text="周一"/>
+                    <Label styleClass="day-date" text="11/17"/>
+                </VBox>
+                <VBox alignment="CENTER" styleClass="grid-header-day" GridPane.columnIndex="2"
+                      GridPane.rowIndex="0">
+                    <Label styleClass="day-name" text="周二"/>
+                    <Label styleClass="day-date" text="11/18"/>
+                </VBox>
+                <VBox alignment="CENTER" styleClass="grid-header-day" GridPane.columnIndex="3"
+                      GridPane.rowIndex="0">
+                    <Label styleClass="day-name" text="周三"/>
+                    <Label styleClass="day-date" text="11/19"/>
+                </VBox>
+                <VBox alignment="CENTER" styleClass="grid-header-day, current-day-highlight"
+                      GridPane.columnIndex="4" GridPane.rowIndex="0">
+                    <Label styleClass="day-name" text="周四"/>
+                    <Label styleClass="day-date" text="11/20"/>
+                </VBox>
+                <VBox alignment="CENTER" styleClass="grid-header-day" GridPane.columnIndex="5"
+                      GridPane.rowIndex="0">
+                    <Label styleClass="day-name" text="周五"/>
+                    <Label styleClass="day-date" text="11/21"/>
+                </VBox>
+                <VBox alignment="CENTER" styleClass="grid-header-day" GridPane.columnIndex="6"
+                      GridPane.rowIndex="0">
+                    <Label styleClass="day-name" text="周六"/>
+                    <Label styleClass="day-date" text="11/22"/>
+                </VBox>
+                <VBox alignment="CENTER" styleClass="grid-header-day" GridPane.columnIndex="7"
+                      GridPane.rowIndex="0">
+                    <Label styleClass="day-name" text="周日"/>
+                    <Label styleClass="day-date" text="11/23"/>
+                </VBox>
+
+                <!-- 左侧：节次和时间 -->
+                <VBox alignment="CENTER" styleClass="grid-sidebar-time" GridPane.columnIndex="0"
+                      GridPane.rowIndex="1">
+                    <Label styleClass="period-num" text="1"/>
+                    <Label styleClass="period-time" text="08:00"/>
+                    <Label styleClass="period-time" text="08:50"/>
+                </VBox>
+
+                <VBox alignment="CENTER" styleClass="grid-sidebar-time" GridPane.columnIndex="0"
+                      GridPane.rowIndex="2">
+                    <Label styleClass="period-num" text="2"/>
+                    <Label styleClass="period-time" text="09:00"/>
+                    <Label styleClass="period-time" text="09:50"/>
+                </VBox>
+
+                <VBox alignment="CENTER" styleClass="grid-sidebar-time" GridPane.columnIndex="0"
+                      GridPane.rowIndex="3">
+                    <Label styleClass="period-num" text="3"/>
+                    <Label styleClass="period-time" text="10:00"/>
+                    <Label styleClass="period-time" text="10:50"/>
+                </VBox>
+
+                <VBox alignment="CENTER" styleClass="grid-sidebar-time" GridPane.columnIndex="0"
+                      GridPane.rowIndex="4">
+                    <Label styleClass="period-num" text="4"/>
+                    <Label styleClass="period-time" text="11:00"/>
+                    <Label styleClass="period-time" text="11:50"/>
+                </VBox>
+
+                <VBox alignment="CENTER" styleClass="grid-sidebar-time" GridPane.columnIndex="0"
+                      GridPane.rowIndex="5">
+                    <Label styleClass="period-num" text="5"/>
+                    <Label styleClass="period-time" text="14:00"/>
+                    <Label styleClass="period-time" text="14:50"/>
+                </VBox>
+
+                <VBox alignment="CENTER" styleClass="grid-sidebar-time" GridPane.columnIndex="0"
+                      GridPane.rowIndex="6">
+                    <Label styleClass="period-num" text="6"/>
+                    <Label styleClass="period-time" text="15:00"/>
+                    <Label styleClass="period-time" text="15:50"/>
+                </VBox>
+
+                <VBox alignment="CENTER" styleClass="grid-sidebar-time" GridPane.columnIndex="0"
+                      GridPane.rowIndex="7">
+                    <Label styleClass="period-num" text="7"/>
+                    <Label styleClass="period-time" text="16:00"/>
+                    <Label styleClass="period-time" text="16:50"/>
+                </VBox>
+
+                <VBox alignment="CENTER" styleClass="grid-sidebar-time" GridPane.columnIndex="0"
+                      GridPane.rowIndex="8">
+                    <Label styleClass="period-num" text="8"/>
+                    <Label styleClass="period-time" text="17:00"/>
+                    <Label styleClass="period-time" text="17:50"/>
+                </VBox>
+
+                <VBox alignment="CENTER" styleClass="grid-sidebar-time" GridPane.columnIndex="0"
+                      GridPane.rowIndex="9">
+                    <Label styleClass="period-num" text="9"/>
+                    <Label styleClass="period-time" text="19:00"/>
+                    <Label styleClass="period-time" text="19:50"/>
+                </VBox>
+
+                <VBox alignment="CENTER" styleClass="grid-sidebar-time" GridPane.columnIndex="0"
+                      GridPane.rowIndex="10">
+                    <Label styleClass="period-num" text="10"/>
+                    <Label styleClass="period-time" text="20:00"/>
+                    <Label styleClass="period-time" text="20:50"/>
+                </VBox>
+
+            </GridPane>
+        </ScrollPane>
+    </center>
+
+    <!-- 底部：周次切换按钮 -->
+    <bottom>
+        <HBox alignment="CENTER_RIGHT" spacing="15.0" styleClass="footer-bar">
+            <padding>
+                <Insets bottom="15.0" left="20.0" right="20.0" top="5.0"/>
+            </padding>
+            <Button onAction="#onPrevWeek" styleClass="nav-button" text="&lt; 上一周"/>
+            <Button onAction="#onNextWeek" styleClass="nav-button" text="下一周 &gt;"/>
+        </HBox>
+    </bottom>
+</BorderPane>

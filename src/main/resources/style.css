@@ -1,0 +1,276 @@
+/* ================= 全局变量设置 ================= */
+* {
+    /* 设置主色调和字体 */
+    -fx-primary-text: #333333;
+    -fx-secondary-text: #666666;
+    -fx-light-text: #999999;
+    -fx-background-color: #f7f8fa; /* 柔和的灰白背景 */
+    -fx-font-family: "Microsoft YaHei", "Segoe UI", sans-serif;
+}
+
+.root-pane {
+    -fx-background-color: -fx-background-color;
+}
+
+/* ================= 顶部导航栏 ================= */
+.header-bar {
+    -fx-background-color: rgba(255, 255, 255, 0.95); /* 白色背景 */
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.05), 5, 0, 0, 2);
+    -fx-border-color: transparent transparent #eeeeee transparent;
+    -fx-border-width: 1;
+}
+
+.header-date {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2c3e50;
+}
+
+.header-week-status {
+    -fx-font-size: 13px;
+    -fx-text-fill: #27ae60; /* 绿色表示当前周 */
+    -fx-font-weight: bold;
+    -fx-background-color: rgba(39, 174, 96, 0.1);
+    -fx-padding: 2 6;
+    -fx-background-radius: 4;
+}
+
+.header-week-day {
+    -fx-font-size: 13px;
+    -fx-text-fill: -fx-secondary-text;
+}
+
+/* ================= 按钮样式 ================= */
+.icon-button {
+    -fx-background-color: white;
+    -fx-background-radius: 20;
+    -fx-border-radius: 20;
+    -fx-border-color: #e0e0e0;
+    -fx-text-fill: -fx-secondary-text;
+    -fx-font-size: 12px;
+    -fx-padding: 5 12 5 12;
+    -fx-cursor: hand;
+    -fx-content-display: LEFT;
+    -fx-graphic-text-gap: 6;
+}
+
+.icon-button:hover {
+    -fx-background-color: #f0f2f5;
+    -fx-border-color: #d0d0d0;
+    -fx-text-fill: #333333;
+}
+
+.icon-button:pressed {
+    -fx-background-color: #e8e8e8;
+}
+
+.svg-icon {
+    -fx-fill: -fx-secondary-text;
+}
+
+.icon-button:hover .svg-icon {
+    -fx-fill: #333333;
+}
+
+/* 独特的添加按钮 */
+.primary-button {
+    -fx-background-color: #2c3e50;
+    -fx-text-fill: white;
+    -fx-border-color: transparent;
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+    -fx-padding: 4 14 4 14;
+}
+
+.primary-button:hover {
+    -fx-background-color: #34495e;
+    -fx-effect: dropshadow(three-pass-box, rgba(44, 62, 80, 0.3), 5, 0, 0, 2);
+}
+
+/* ================= 表格布局 ================= */
+.schedule-scroll-pane {
+    -fx-background-color: transparent;
+    -fx-background: transparent;
+}
+
+.schedule-scroll-pane > .viewport {
+    -fx-background-color: transparent;
+}
+
+.schedule-grid {
+    -fx-background-color: transparent;
+}
+
+/* 月份角落 */
+.grid-header-month {
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2c3e50;
+}
+
+/* 表头：周几 */
+.grid-header-day {
+    -fx-spacing: 2;
+}
+
+.day-name {
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #555555;
+}
+
+.day-date {
+    -fx-font-size: 11px;
+    -fx-text-fill: #999999;
+}
+
+/* 当前日高亮：例如周四 */
+.current-day-highlight {
+    -fx-background-color: rgba(39, 174, 96, 0.1);
+    -fx-background-radius: 8;
+}
+
+.current-day-highlight .day-name {
+    -fx-text-fill: #27ae60;
+}
+
+.current-day-highlight .day-date {
+    -fx-text-fill: #27ae60;
+}
+
+/* 侧边栏：时间 */
+.grid-sidebar-time {
+    -fx-padding: 0 5 0 0;
+}
+
+.period-num {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #333333;
+}
+
+.period-time {
+    -fx-font-size: 10px;
+    -fx-text-fill: #aaaaaa;
+}
+
+/* ================= 课程卡片核心样式 ================= */
+/* 在 Java Controller 代码中创建 VBox 时，
+   请添加 styleClass "course-card" 和颜色类 (如 "color-blue")
+*/
+.course-card {
+    -fx-background-radius: 8px;
+    -fx-padding: 6px;
+    -fx-spacing: 2px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.08), 3, 0, 0, 2);
+    -fx-cursor: hand;
+    -fx-alignment: TOP_LEFT;
+}
+
+.course-card:hover {
+    -fx-scale-x: 1.02;
+    -fx-scale-y: 1.02;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.15), 5, 0, 0, 3);
+}
+
+.course-name {
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 12px;
+}
+
+.course-room, .course-teacher, .course-location {
+    -fx-text-fill: rgba(255, 255, 255, 0.95);
+    -fx-font-size: 10px;
+}
+
+/* 配色方案 - 渐变色 */
+.color-blue {
+    -fx-background-color: linear-gradient(to bottom right, #64b3f4, #c2e59c);
+}
+.color-pink {
+    -fx-background-color: linear-gradient(to bottom right, #ff9a9e, #fad0c4);
+}
+.color-green {
+    -fx-background-color: linear-gradient(to bottom right, #84fab0, #8fd3f4);
+}
+.color-purple {
+    -fx-background-color: linear-gradient(to bottom right, #a18cd1, #fbc2eb);
+}
+.color-orange {
+    -fx-background-color: linear-gradient(to bottom right, #f6d365, #fda085);
+}
+.color-red {
+    -fx-background-color: linear-gradient(to bottom right, #ff9966, #ff5e62);
+}
+.color-cyan {
+    -fx-background-color: linear-gradient(to bottom right, #48c6ef, #6f86d6);
+}
+.color-emerald {
+    -fx-background-color: linear-gradient(to bottom right, #43e97b, #38f9d7);
+}
+.color-indigo {
+    -fx-background-color: linear-gradient(to bottom right, #667eea, #764ba2);
+}
+.color-magenta {
+    -fx-background-color: linear-gradient(to bottom right, #f093fb, #f5576c);
+}
+.color-ocean {
+    -fx-background-color: linear-gradient(to bottom right, #20E2D7, #F9FEA5);
+}
+.color-yellow {
+    -fx-background-color: linear-gradient(to bottom right, #F2994A, #F2C94C);
+}
+.color-teal {
+    -fx-background-color: linear-gradient(to bottom right, #13547a, #80d0c7);
+}
+.color-coral {
+    -fx-background-color: linear-gradient(to bottom right, #ff758c, #ff7eb3);
+}
+.color-slate {
+    -fx-background-color: linear-gradient(to bottom right, #89f7fe, #66a6ff);
+}
+
+/* 滚动条样式微调 */
+.scroll-bar:vertical {
+    -fx-background-color: transparent;
+    -fx-pref-width: 8;
+}
+.scroll-bar:vertical .thumb {
+    -fx-background-color: #dcdcdc;
+    -fx-background-radius: 4;
+}
+.scroll-bar:vertical .track {
+    -fx-background-color: transparent;
+}
+
+/* ================= 底部导航 ================= */
+.footer-bar {
+    -fx-background-color: transparent;
+    /* 如果想要悬浮感更强，可以把背景去掉，或者加一个渐变遮罩 */
+}
+
+.nav-button {
+    -fx-background-color: white;
+    -fx-text-fill: #666;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 20; /* 胶囊形状 */
+    -fx-border-radius: 20;
+    -fx-border-color: #e0e0e0;
+    -fx-padding: 8 16;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.08), 4, 0, 0, 2);
+}
+
+.nav-button:hover {
+    -fx-background-color: #2c3e50; /* 悬停变为深色主题色 */
+    -fx-text-fill: white;
+    -fx-border-color: #2c3e50;
+    -fx-effect: dropshadow(three-pass-box, rgba(44, 62, 80, 0.3), 6, 0, 0, 3);
+}
+
+.nav-button:pressed {
+    -fx-background-color: #1a252f;
+    -fx-effect: none;
+}

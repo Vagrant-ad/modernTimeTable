@@ -6,7 +6,7 @@ public class SelectCourseItem {
     public Id id;
     public String programPlanNumber;
     public String courseName;
-    public int unit;
+    public double unit;
     public String programPlanName;
     public String attendClassTeacher;
     public String studyModeCode;
