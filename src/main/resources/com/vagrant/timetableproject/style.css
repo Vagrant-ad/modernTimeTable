@@ -1,18 +1,17 @@
-/* ================= 全局变量设置 ================= */
+/*全局变量*/
 * {
-    /* 设置主色调和字体 */
+    /*主色调和字体*/
     -fx-primary-text: #333333;
     -fx-secondary-text: #666666;
     -fx-light-text: #999999;
-    -fx-background-color: #f7f8fa; /* 柔和的灰白背景 */
     -fx-font-family: "Microsoft YaHei", "Segoe UI", sans-serif;
 }
 
 .root-pane {
-    -fx-background-color: -fx-background-color;
+    -fx-background-color: #f7f8fa;
 }
 
-/* ================= 顶部导航栏 ================= */
+/*顶部导航栏*/
 .header-bar {
     -fx-background-color: rgba(255, 255, 255, 0.95); /* 白色背景 */
     -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.05), 5, 0, 0, 2);
@@ -28,7 +27,7 @@
 
 .header-week-status {
     -fx-font-size: 13px;
-    -fx-text-fill: #27ae60; /* 绿色表示当前周 */
+    -fx-text-fill: #27ae60;
     -fx-font-weight: bold;
     -fx-background-color: rgba(39, 174, 96, 0.1);
     -fx-padding: 2 6;
@@ -37,16 +36,16 @@
 
 .header-week-day {
     -fx-font-size: 13px;
-    -fx-text-fill: -fx-secondary-text;
+    -fx-text-fill: #666666;
 }
 
-/* ================= 按钮样式 ================= */
+/*按钮*/
 .icon-button {
     -fx-background-color: white;
     -fx-background-radius: 20;
     -fx-border-radius: 20;
     -fx-border-color: #e0e0e0;
-    -fx-text-fill: -fx-secondary-text;
+    -fx-text-fill: #666666;
     -fx-font-size: 12px;
     -fx-padding: 5 12 5 12;
     -fx-cursor: hand;
@@ -65,14 +64,14 @@
 }
 
 .svg-icon {
-    -fx-fill: -fx-secondary-text;
+    -fx-fill: #666666;
 }
 
 .icon-button:hover .svg-icon {
     -fx-fill: #333333;
 }
 
-/* 独特的添加按钮 */
+/*添加课程按钮*/
 .primary-button {
     -fx-background-color: #2c3e50;
     -fx-text-fill: white;
@@ -87,7 +86,7 @@
     -fx-effect: dropshadow(three-pass-box, rgba(44, 62, 80, 0.3), 5, 0, 0, 2);
 }
 
-/* ================= 表格布局 ================= */
+/*表格布局*/
 .schedule-scroll-pane {
     -fx-background-color: transparent;
     -fx-background: transparent;
@@ -101,14 +100,16 @@
     -fx-background-color: transparent;
 }
 
-/* 月份角落 */
+
 .grid-header-month {
     -fx-font-size: 15px;
     -fx-font-weight: bold;
-    -fx-text-fill: #2c3e50;
 }
 
-/* 表头：周几 */
+.grid-header-month Label {
+    -fx-text-fill: #333333;
+}
+
 .grid-header-day {
     -fx-spacing: 2;
 }
@@ -124,7 +125,7 @@
     -fx-text-fill: #999999;
 }
 
-/* 当前日高亮：例如周四 */
+/*高亮*/
 .current-day-highlight {
     -fx-background-color: rgba(39, 174, 96, 0.1);
     -fx-background-radius: 8;
@@ -138,7 +139,7 @@
     -fx-text-fill: #27ae60;
 }
 
-/* 侧边栏：时间 */
+
 .grid-sidebar-time {
     -fx-padding: 0 5 0 0;
 }
@@ -154,10 +155,7 @@
     -fx-text-fill: #aaaaaa;
 }
 
-/* ================= 课程卡片核心样式 ================= */
-/* 在 Java Controller 代码中创建 VBox 时，
-   请添加 styleClass "course-card" 和颜色类 (如 "color-blue")
-*/
+/*课程卡片*/
 .course-card {
     -fx-background-radius: 8px;
     -fx-padding: 6px;
@@ -184,7 +182,7 @@
     -fx-font-size: 10px;
 }
 
-/* 配色方案 - 渐变色 */
+/*渐变色*/
 .color-blue {
     -fx-background-color: linear-gradient(to bottom right, #64b3f4, #c2e59c);
 }
@@ -230,8 +228,23 @@
 .color-slate {
     -fx-background-color: linear-gradient(to bottom right, #89f7fe, #66a6ff);
 }
+.color-gold {
+    -fx-background-color: linear-gradient(to bottom right, #FDC830, #F37335);
+}
+.color-gray {
+    -fx-background-color: linear-gradient(to bottom right, #bdc3c7, #2c3e50);
+}
+.color-olive {
+    -fx-background-color: linear-gradient(to bottom right, #799F0C, #ACC11A);
+}
+.color-brick {
+    -fx-background-color: linear-gradient(to bottom right, #cb356b, #bd3f32);
+}
+.color-violet {
+    -fx-background-color: linear-gradient(to bottom right, #7928CA, #FF0080);
+}
 
-/* 滚动条样式微调 */
+/*滚动条*/
 .scroll-bar:vertical {
     -fx-background-color: transparent;
     -fx-pref-width: 8;
@@ -244,10 +257,9 @@
     -fx-background-color: transparent;
 }
 
-/* ================= 底部导航 ================= */
+
 .footer-bar {
     -fx-background-color: transparent;
-    /* 如果想要悬浮感更强，可以把背景去掉，或者加一个渐变遮罩 */
 }
 
 .nav-button {
@@ -255,7 +267,7 @@
     -fx-text-fill: #666;
     -fx-font-size: 13px;
     -fx-font-weight: bold;
-    -fx-background-radius: 20; /* 胶囊形状 */
+    -fx-background-radius: 20;
     -fx-border-radius: 20;
     -fx-border-color: #e0e0e0;
     -fx-padding: 8 16;
@@ -264,7 +276,7 @@
 }
 
 .nav-button:hover {
-    -fx-background-color: #2c3e50; /* 悬停变为深色主题色 */
+    -fx-background-color: #2c3e50;
     -fx-text-fill: white;
     -fx-border-color: #2c3e50;
     -fx-effect: dropshadow(three-pass-box, rgba(44, 62, 80, 0.3), 6, 0, 0, 3);

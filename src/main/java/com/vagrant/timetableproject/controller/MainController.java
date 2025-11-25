@@ -1,5 +1,7 @@
 package com.vagrant.timetableproject.controller;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.vagrant.timetableproject.model.SimplifiedCourse;
 import com.vagrant.timetableproject.service.CourseParser;
 import com.vagrant.timetableproject.service.IcsExporter;
@@ -13,6 +15,7 @@ import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.time.LocalDate;
@@ -38,7 +41,7 @@ public class MainController {
     private GridPane gridCourse;
 
     //学期起始日期
-    private LocalDate termStartDate = LocalDate.of(2024, 9, 2);
+    private LocalDate termStartDate = LocalDate.of(2025, 8, 25);
     //当前显示的周次
     private int currentDisplayWeek = 1;
     //日期格式化器
@@ -56,17 +59,19 @@ public class MainController {
     private Map<String, String> coursecolormap = new HashMap<>();
 
     private static final String[] COLOR_CLASSES = {
-            //15种渐变色
+            //20种渐变色
             "color-blue", "color-pink", "color-green", "color-purple", "color-orange",
             "color-red", "color-cyan", "color-emerald", "color-indigo", "color-magenta",
-            "color-ocean", "color-yellow", "color-teal", "color-coral", "color-slate"
+            "color-ocean", "color-yellow", "color-teal", "color-coral", "color-slate",
+            "color-gold", "color-gray", "color-olive", "color-brick", "color-violet"
     };
 
     @FXML
     public void initialize() {
-        //初始化时计算当前周次并更新标签日期显示
+        //初始化时计算当前周次并更新标签日期显示，再读取课程数据
         calculateCurrentWeek();
         updateAllDateLabels();
+        loadCourseData();
     }
 
     private void calculateCurrentWeek() {
@@ -240,7 +245,7 @@ public class MainController {
                     return;
                 }
                 courseList = parsedCourses;
-
+                saveCourseData();
                 refreshCourseDisplay();
 
                 // 显示成功提示
@@ -424,6 +429,7 @@ public class MainController {
                         throw new IllegalArgumentException("周次列表不能为空");
                     //通过检查后添加新课程到列表
                     courseList.add(course);
+                    saveCourseData();
                     refreshCourseDisplay();
                     Alert success = new Alert(Alert.AlertType.INFORMATION);
                     success.setTitle("添加成功");
@@ -603,8 +609,9 @@ public class MainController {
         dialog.getDialogPane().setContent(grid);
         //设置按钮
         ButtonType saveButton = new ButtonType("保存", ButtonBar.ButtonData.OK_DONE);
+        ButtonType deleteButton = new ButtonType("删除", ButtonBar.ButtonData.OTHER);
         ButtonType cancelButton = new ButtonType("取消", ButtonBar.ButtonData.CANCEL_CLOSE);
-        dialog.getDialogPane().getButtonTypes().addAll(saveButton, cancelButton);
+        dialog.getDialogPane().getButtonTypes().addAll(saveButton, deleteButton,cancelButton);
         //按下保存按钮时尝试更新信息
         dialog.showAndWait().ifPresent(response -> {
             if (response == saveButton) {
@@ -626,6 +633,8 @@ public class MainController {
                             course.weeks.add(Integer.parseInt(week.trim()));
                         }
                     }
+                    //保存刷新
+                    saveCourseData();
                     refreshCourseDisplay();
                 } catch (Exception e) {
                     Alert error = new Alert(Alert.AlertType.ERROR);
@@ -634,7 +643,65 @@ public class MainController {
                     error.setContentText(e.getMessage());
                     error.show();
                 }
+            } else if (response == deleteButton) {
+                // 删除课程 - 显示确认对话框
+                Alert confirmDialog = new Alert(Alert.AlertType.CONFIRMATION);
+                confirmDialog.setTitle("确认删除");
+                confirmDialog.setHeaderText("删除课程");
+                confirmDialog.setContentText("确定要删除课程" + course.courseName + "吗？\n");
+
+                Optional<ButtonType> confirmResult = confirmDialog.showAndWait();
+                if (confirmResult.isPresent() && confirmResult.get() == ButtonType.OK) {
+                    // 从列表中删除课程
+                    courseList.remove(course);
+                    //保存
+                    saveCourseData();
+                    // 刷新显示
+                    refreshCourseDisplay();
+                    // 显示成功提示
+                    Alert success = new Alert(Alert.AlertType.INFORMATION);
+                    success.setTitle("删除成功");
+                    success.setHeaderText(null);
+                    success.setContentText("课程 \"" + course.courseName + "\" 已删除");
+                    success.show();
+                }
             }
         });
+    }
+    private void saveCourseData() {
+        try {
+            //保存到用户目录下的.timetable下
+            String userHome = System.getProperty("user.home");
+            File saveDir = new File(userHome, ".timetable");
+            if (!saveDir.exists())
+                saveDir.mkdirs();
+            File saveFile = new File(saveDir, "courses.json");
+            //使用Gson序列化
+            Gson gson = new Gson();
+            String json = gson.toJson(courseList);
+            Files.writeString(saveFile.toPath(), json, StandardCharsets.UTF_8);
+        } catch (Exception e) {
+            System.err.println("保存课程数据失败: " + e.getMessage());
+        }
+    }
+    private void loadCourseData() {
+        try {
+            String userHome = System.getProperty("user.home");
+            File saveFile = new File(userHome, ".timetable/courses.json");
+            if (saveFile.exists()) {
+                String json = Files.readString(saveFile.toPath(), StandardCharsets.UTF_8);
+                Gson gson = new Gson();
+                //使用 TypeToken反序列化courseList
+                Type listType = new TypeToken<ArrayList<SimplifiedCourse>>(){}.getType();
+                List<SimplifiedCourse> loadedCourses = gson.fromJson(json, listType);
+                if (loadedCourses != null && !loadedCourses.isEmpty()) {
+                    courseList = loadedCourses;
+                    refreshCourseDisplay();
+                    System.out.println("成功加载 " + courseList.size() + " 门课程");
+                }
+            }
+        } catch (Exception e) {
+            System.err.println("加载课程数据失败: " + e.getMessage());
+        }
     }
 }
